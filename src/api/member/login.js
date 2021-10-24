@@ -16,4 +16,10 @@ async function loginUser(userData) {
 	}
 }
 
-export { loginUser };
+function idCheck(id) {
+	let paramData = {
+		id: id,
+	};
+	return createInstanceWithAuth('/company/exist', paramData, {}, 'application/json; charset=utf-8').post();
+}
+export { loginUser, idCheck };

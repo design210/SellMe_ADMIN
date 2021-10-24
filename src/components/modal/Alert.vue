@@ -2,8 +2,8 @@
 	<modalWrap @close="close">
 		<template slot="body">
 			<div class="info-wrap">
-				<p>아이디/비밀번호가<br />일치하지 않습니다.</p>
-				<button type="button" id="modalBtn" @click="close">확인</button>
+				<p v-html="msg"></p>
+				<span class="modal-btn" @click="close">확인</span>
 			</div>
 		</template>
 	</modalWrap>
@@ -12,16 +12,7 @@
 <script>
 import modalWrap from '@/components/modal/AlertTemplate';
 export default {
-	data() {
-		return {
-			//게시물 설정
-			size: 15,
-			page: 1,
-			searchText: '',
-			len: null,
-			list: [],
-		};
-	},
+	props: ['msg'],
 	components: {
 		modalWrap,
 	},
@@ -38,5 +29,19 @@ export default {
 	& p {
 		margin-bottom: 20px;
 	}
+}
+.modal-btn {
+	width: 146px;
+	height: 42px;
+	background-color: #ff4839;
+	border: 1px solid #ff4839;
+	border-radius: 5px;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+	display: block;
+	margin: 0 auto;
+	line-height: 40px;
 }
 </style>

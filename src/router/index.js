@@ -39,7 +39,7 @@ const router = new VueRouter({
 			},
 		},
 		{
-			path: '/company/modify',
+			path: '/company/modify/:id',
 			name: 'company_modify',
 			components: {
 				top,
@@ -63,7 +63,7 @@ const router = new VueRouter({
 			},
 		},
 		{
-			path: '/applicant/modify',
+			path: '/applicant/modify/:id',
 			name: 'applicant_modify',
 			components: {
 				top,
@@ -87,7 +87,7 @@ const router = new VueRouter({
 			},
 		},
 		{
-			path: '/advertisemen/modify',
+			path: '/advertisemen/modify/:id',
 			name: 'advertisemen_modify',
 			components: {
 				top,

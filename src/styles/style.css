@@ -169,13 +169,13 @@ td {
 	font-weight: 100;
 	text-align: center;
 }
-#noFile{
+/* #noFile{
 	color: #D3D3D3;
 	border: 0;
 	 font-size: 13px;
 	 overflow: hidden;	
 	 margin: 4px;	
-  }
+  } */
 .filebox label {
 	padding: .2em .75em;	
 	background-color: #FF4839;
@@ -392,3 +392,12 @@ h3{
 	text-decoration: none;
 	color: #000;
 }
+
+/* add */
+.v-pagination__item{color:#000 !important;border:0;font-size:12px !important;box-shadow:0px 3px 1px -2px rgb(0 0 0 / 0%) !important}
+.v-pagination__item--active{color:#FF4124 !important;background-color: #FFEFED !important;}
+.v-application .v-pagination__item--active.primary{background-color: #FFEFED !important;}
+.v-pagination li:first-child button{border:0;background: url('../assets/img/icon_pg_arrowL.svg')no-repeat center center !important;box-shadow:0px 3px 1px -2px rgb(0 0 0 / 0%) !important}
+.v-pagination li:last-child button{border:0;background: url('../assets/img/icon_pg_arrowR.svg')no-repeat center center !important;box-shadow:0px 3px 1px -2px rgb(0 0 0 / 0%) !important}
+select {font-size:12px !important;border:1px solid gray !important;padding:0 5px;-webkit-appearance:auto !important}
+.file-input .v-icon{display:none !important}

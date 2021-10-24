@@ -12,7 +12,7 @@
 					<div class="longin_id">
 						<label for="idInput">아이디</label>
 						<input type="text" name="adminId" id="idInput" placeholder="아이디를 입력해주세요." v-model="id" />
-						<span class="errmess" v-if="idError">이메일 주소를 입력해주세요.</span>
+						<span class="errmess" v-if="idError">아이디를 입력해주세요.</span>
 					</div>
 					<div class="longin_password">
 						<label for="passwordInput">비밀번호</label>
@@ -30,9 +30,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import loginAlertModal from '@/components/modal/LoginAlert';
+import AlertModal from '@/components/modal/Alert';
 import { getPopupOpt } from '@/utils/modal';
-import { verifyEmail } from '@/utils/validate';
 export default {
 	computed: {
 		...mapGetters('login', ['getLoginInfo']),
@@ -46,17 +45,12 @@ export default {
 			pw: '',
 			idError: false,
 			pwError: false,
+			companyName: '',
 		};
 	},
 	methods: {
 		login() {
-			if (this.id !== '') {
-				let result = verifyEmail(this.id);
-				if (result == false) {
-					this.idError = true;
-					return false;
-				}
-			} else {
+			if (this.id == '') {
 				this.idError = true;
 				return false;
 			}
@@ -67,8 +61,8 @@ export default {
 			this.submitLogin();
 		},
 		//알럿 모달
-		showModalPopup() {
-			this.$modal.show(loginAlertModal, {}, getPopupOpt('loginAlertModal', '280px', 'auto', false));
+		showModalPopup(msg) {
+			this.$modal.show(AlertModal, { msg }, getPopupOpt('AlertModal', '280px', 'auto', false));
 		},
 		async submitLogin() {
 			try {
@@ -77,10 +71,14 @@ export default {
 					password: this.pw,
 				};
 				await this.$store.dispatch('login/LOGIN', userData);
-				if (this.getLoginInfo.token !== '') {
-					this.$router.push('/main');
+				if (this.getLoginInfo.msg === undefined) {
+					if (this.getLoginInfo.token !== '') {
+						this.$router.push('/main');
+					} else {
+						this.logMessage = this.getLoginInfo.message;
+					}
 				} else {
-					this.logMessage = this.getLoginInfo.message;
+					this.showModalPopup('아이디/비밀번호가<br />일치하지 않습니다.');
 				}
 			} catch (error) {
 				console.log('error:', error);
