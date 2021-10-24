@@ -38,7 +38,7 @@
 							<td>{{ item.departPhoneNo }}</td>
 							<td>{{ item.departEmail }}</td>
 							<td>{{ item.date }} {{ item.time }}</td>
-							<td>12</td>
+							<td>{{ item.livePostCount }}</td>
 							<td><a @click="modify(item.companyUserNo)">수정</a></td>
 						</tr>
 					</tbody>

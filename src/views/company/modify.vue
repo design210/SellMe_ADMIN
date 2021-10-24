@@ -25,29 +25,24 @@
 							<td class="idCheck">
 								<div class="d-flex">
 									<div>
-										<input type="text" v-model="id" />
-									</div>
-									<div style="margin-left: 5px; margin-top: 3px">
-										<button type="button" @click="idCheck" v-if="idcheck === false" class="btn">중복 체크</button>
-										<button type="button" v-else class="btn">체크 완료</button>
+										<input type="text" v-model="id" readonly />
 									</div>
 								</div>
 							</td>
 							<th>비밀번호</th>
-							<td class="">
+							<td>
 								<input type="password" v-model="password" />
-								<!-- <input type="password" id="password">		
-									<button type="button" id="changePwdBtn" onclick="">수정</button> -->
 							</td>
 						</tr>
 						<tr>
 							<th>기업명</th>
-							<td class="">
+							<td>
 								<input type="text" v-model="companyName" />
 							</td>
 							<th>기업 로고</th>
 							<td class="filebox">
 								<div class="d-flex">
+									<img :src="companyLogo" class="logo" v-if="companyLogo !== ''" />
 									<label for="noFile" style="margin-left: 0">파일 선택</label>
 									<v-file-input class="file-input" id="noFile" accept="image/*" @change="selectFile" placeholder="선택된 파일 없음"></v-file-input>
 								</div>
@@ -79,7 +74,7 @@
 								<input type="email" v-model="managerEmail" />
 							</td>
 							<th>계정 생성일</th>
-							<td><span></span></td>
+							<td>{{ date }} {{ time }}</td>
 						</tr>
 						<tr>
 							<th>관리자 메모</th>
@@ -90,8 +85,10 @@
 					</table>
 				</div>
 				<!-- </form> -->
-
-				<button style="margin: 50px 0" @click="validate" class="btn">확인</button>
+				<div class="d-flex">
+					<button style="margin: 50px 5px 0 0" @click="$router.push('/company/list')" class="btn-gray">목록</button>
+					<button style="margin: 50px 0" @click="validate" class="btn">수정</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -104,7 +101,7 @@ import { getPopupOpt } from '@/utils/modal';
 import axios from 'axios';
 export default {
 	computed: {
-		...mapGetters('login', ['getIdCheck']),
+		...mapGetters('company', ['getCompanyDetail']),
 		...mapGetters('common', ['getFileInfo']),
 	},
 	data() {
@@ -119,6 +116,8 @@ export default {
 			managerPhoneNo: '',
 			managerEmail: '',
 			memo: '',
+			date: '',
+			time: '',
 			level: 1,
 			fileUrl: '',
 			idcheck: false,
@@ -126,8 +125,19 @@ export default {
 	},
 	async mounted() {
 		const id = this.$route.params.id;
-		console.log(id);
-		await this.$store.dispatch('company/COMPANY_DETAIL', this.id);
+		await this.$store.dispatch('company/COMPANY_DETAIL', id);
+		const data = this.getCompanyDetail;
+		this.id = data.id;
+		this.companyLogo = data.companyLogo;
+		this.companyName = data.companyName;
+		this.departPhoneNo = data.departPhoneNo;
+		this.departEmail = data.departEmail;
+		this.managerName = data.managerName;
+		this.managerPhoneNo = data.managerPhoneNo;
+		this.managerEmail = data.managerEmail;
+		this.memo = data.memo;
+		this.date = data.regDate.substring(0, 10);
+		this.time = data.regDate.substring(11, 19);
 	},
 	methods: {
 		async idCheck() {
@@ -209,6 +219,10 @@ export default {
 </script>
 
 <style lang="scss">
+.logo {
+	width: 80px;
+	height: 30px;
+}
 .file-input {
 	height: 30px;
 	margin-top: 0 !important;
@@ -237,6 +251,18 @@ export default {
 	border: 1px solid #ff4839;
 	border-radius: 3px;
 	color: #ffffff !important;
+	font-size: 13px;
+	width: 80px;
+	height: 30px;
+	margin-top: -6px;
+	cursor: pointer;
+}
+.btn-gray {
+	background-color: #fff;
+	text-align: center;
+	border: 1px solid #a3a3a3;
+	border-radius: 3px;
+	color: #272727 !important;
 	font-size: 13px;
 	width: 80px;
 	height: 30px;

@@ -29,4 +29,7 @@ function companyDel(data) {
 	};
 	return createInstanceWithAuth('/company/list', paramData, {}, 'application/json; charset=utf-8').put();
 }
-export { companyReg, getCompanyList, companyDel };
+function getCompanyDetail(id) {
+	return createInstanceWithAuth(`/company/${id}`, {}, {}, 'application/json; charset=utf-8').get();
+}
+export { companyReg, getCompanyList, companyDel, getCompanyDetail };

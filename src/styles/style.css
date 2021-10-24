@@ -213,19 +213,7 @@ select{
 	margin: 30px;
 	display: flex;
 }
-button{	
-    text-align: center;
-	background-color: #FF4839;
-	border: 1px solid #FF4839;
-	border-radius: 3px;
-	color: #FFFFFF;
-	font-size: 13px;
-	width: 80px;
-	height: 30px;
-	margin-top: -6px;
-	cursor: pointer;
-	float: left;
-}
+
 #excel_btn{
 	margin-right: 20px;
 }
@@ -401,3 +389,4 @@ h3{
 .v-pagination li:last-child button{border:0;background: url('../assets/img/icon_pg_arrowR.svg')no-repeat center center !important;box-shadow:0px 3px 1px -2px rgb(0 0 0 / 0%) !important}
 select {font-size:12px !important;border:1px solid gray !important;padding:0 5px;-webkit-appearance:auto !important}
 .file-input .v-icon{display:none !important}
+input[type="text"]:read-only{background-color: #e7e7e7 !important;}

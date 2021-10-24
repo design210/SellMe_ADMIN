@@ -90,8 +90,10 @@
 					</table>
 				</div>
 				<!-- </form> -->
-
-				<button style="margin: 50px 0" @click="validate" class="btn">확인</button>
+				<div class="d-flex">
+					<button style="margin: 50px 5px 0 0" @click="$router.push('/company/list')" class="btn-gray">목록</button>
+					<button style="margin: 50px 0" @click="validate" class="btn">확인</button>
+				</div>
 			</div>
 		</div>
 	</div>
