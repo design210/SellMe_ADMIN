@@ -32,4 +32,22 @@ function companyDel(data) {
 function getCompanyDetail(id) {
 	return createInstanceWithAuth(`/company/${id}`, {}, {}, 'application/json; charset=utf-8').get();
 }
-export { companyReg, getCompanyList, companyDel, getCompanyDetail };
+function companyModify(data) {
+	let paramData = {
+		companyUserNo: data.companyUserNo,
+		companyName: data.companyName,
+		id: data.id,
+		//password: data.password,
+		memo: data.memo,
+		companyLogo: data.companyLogo,
+		departPhoneNo: data.departPhoneNo,
+		departEmail: data.departEmail,
+		managerName: data.managerName,
+		managerPhoneNo: data.managerPhoneNo,
+		managerEmail: data.managerEmail,
+		level: data.level,
+		isDel: data.idDel,
+	};
+	return createInstanceWithAuth(`/company/${data.companyUserNo}`, paramData, {}, 'application/json; charset=utf-8').put();
+}
+export { companyReg, getCompanyList, companyDel, getCompanyDetail, companyModify };

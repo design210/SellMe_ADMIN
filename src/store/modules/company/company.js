@@ -1,4 +1,4 @@
-import { companyReg, getCompanyList, companyDel, getCompanyDetail } from '@/api/company/company';
+import { companyReg, getCompanyList, companyDel, getCompanyDetail, companyModify } from '@/api/company/company';
 const company = {
 	namespaced: true,
 	state: {
@@ -42,6 +42,9 @@ const company = {
 		},
 		async COMPANY_DEL({ commit }, datas) {
 			await companyDel(datas);
+		},
+		async COMPANY_MODIFY({ commit }, datas) {
+			await companyModify(datas);
 		},
 	},
 };

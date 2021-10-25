@@ -173,12 +173,11 @@ export default {
 				managerEmail: this.managerEmail,
 				level: this.level,
 			});
-			alert('가입이 완료 되었습니다.');
-			this.$router.push('/company/list');
+			this.showModalPopup('가입이 완료 되었습니다.', '/company/list');
 		},
 		//알럿 모달
-		showModalPopup(msg) {
-			this.$modal.show(AlertModal, { msg }, getPopupOpt('AlertModal', '280px', 'auto', false));
+		showModalPopup(msg, link) {
+			this.$modal.show(AlertModal, { msg, link }, getPopupOpt('AlertModal', '280px', 'auto', false));
 		},
 		//파일 업로드
 		selectFile(file) {

@@ -6,12 +6,10 @@
 					<div class="company_managing">기업 관리</div>
 					<div class="company_modify">기업 정보를 등록/수정 관리합니다.</div>
 				</div>
-
 				<div class="head_option">
 					<div class="company_info">기업 정보</div>
 				</div>
 
-				<!-- <form class="register_form"> -->
 				<div class="search_container">
 					<table class="search_table_container">
 						<colgroup>
@@ -24,9 +22,7 @@
 							<th>아이디</th>
 							<td class="idCheck">
 								<div class="d-flex">
-									<div>
-										<input type="text" v-model="id" readonly />
-									</div>
+									<div>{{ id }}</div>
 								</div>
 							</td>
 							<th>비밀번호</th>
@@ -42,7 +38,7 @@
 							<th>기업 로고</th>
 							<td class="filebox">
 								<div class="d-flex">
-									<img :src="companyLogo" class="logo" v-if="companyLogo !== ''" />
+									<img :src="fileUrl" class="logo" v-if="fileUrl !== ''" />
 									<label for="noFile" style="margin-left: 0">파일 선택</label>
 									<v-file-input class="file-input" id="noFile" accept="image/*" @change="selectFile" placeholder="선택된 파일 없음"></v-file-input>
 								</div>
@@ -84,7 +80,6 @@
 						</tr>
 					</table>
 				</div>
-				<!-- </form> -->
 				<div class="d-flex">
 					<button style="margin: 50px 5px 0 0" @click="$router.push('/company/list')" class="btn-gray">목록</button>
 					<button style="margin: 50px 0" @click="validate" class="btn">수정</button>
@@ -106,6 +101,7 @@ export default {
 	},
 	data() {
 		return {
+			companyUserNo: '',
 			companyName: '',
 			id: '',
 			password: '',
@@ -120,7 +116,6 @@ export default {
 			time: '',
 			level: 1,
 			fileUrl: '',
-			idcheck: false,
 		};
 	},
 	async mounted() {
@@ -128,7 +123,8 @@ export default {
 		await this.$store.dispatch('company/COMPANY_DETAIL', id);
 		const data = this.getCompanyDetail;
 		this.id = data.id;
-		this.companyLogo = data.companyLogo;
+		this.companyUserNo = data.companyUserNo;
+		this.fileUrl = data.companyLogo;
 		this.companyName = data.companyName;
 		this.departPhoneNo = data.departPhoneNo;
 		this.departEmail = data.departEmail;
@@ -140,40 +136,13 @@ export default {
 		this.time = data.regDate.substring(11, 19);
 	},
 	methods: {
-		async idCheck() {
-			if (this.id !== '') {
-				await this.$store.dispatch('login/ID_CHECK', this.id);
-				console.log(this.getIdCheck);
-				if (this.getIdCheck.msg === '중복된 아이디가 있습니다') {
-					this.showModalPopup('중복된 아이디가 있습니다.<br/>다른 아이디를 설정해주세요.');
-					this.id = '';
-					this.idcheck = false;
-				} else {
-					this.showModalPopup('사용 가능한 아이디입니다.');
-					this.idcheck = true;
-				}
-			} else {
-				this.showModalPopup('아이디를 입력해주세요.');
-			}
-		},
 		validate() {
-			if (this.id == '') {
-				this.showModalPopup('아이디를 입력해주세요.');
-				return false;
-			}
-			if (this.idcheck === false) {
-				this.showModalPopup('아이디 중복체크를 진행해주세요.');
-				return false;
-			}
-			if (this.id == '') {
-				this.showModalPopup('비밀번호를 입력해주세요.');
-				return false;
-			}
-			this.reg();
+			this.modify();
 		},
 		//저장
-		async reg() {
-			await this.$store.dispatch('company/COMPANY_REG', {
+		async modify() {
+			await this.$store.dispatch('company/COMPANY_MODIFY', {
+				companyUserNo: this.companyUserNo,
 				companyName: this.companyName,
 				id: this.id,
 				password: this.password,
@@ -185,13 +154,13 @@ export default {
 				managerPhoneNo: this.managerPhoneNo,
 				managerEmail: this.managerEmail,
 				level: this.level,
+				isDel: false,
 			});
-			alert('가입이 완료 되었습니다.');
-			this.$router.push('/company/list');
+			this.showModalPopup('수정이 완료 되었습니다.', '/company/list');
 		},
 		//알럿 모달
-		showModalPopup(msg) {
-			this.$modal.show(AlertModal, { msg }, getPopupOpt('AlertModal', '280px', 'auto', false));
+		showModalPopup(msg, link) {
+			this.$modal.show(AlertModal, { msg, link }, getPopupOpt('AlertModal', '280px', 'auto', false));
 		},
 		//파일 업로드
 		selectFile(file) {
@@ -203,8 +172,6 @@ export default {
 				contentType: file.type,
 				fileSize: file.size,
 			});
-			console.log(this.getFileInfo);
-			//const url = this.getFileInfo.s3Url;
 			const url = 'https://s3.ap-northeast-2.amazonaws.com/sellme.medias/' + this.getFileInfo.fileName;
 
 			await axios

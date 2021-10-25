@@ -12,12 +12,15 @@
 <script>
 import modalWrap from '@/components/modal/AlertTemplate';
 export default {
-	props: ['msg'],
+	props: ['msg', 'link'],
 	components: {
 		modalWrap,
 	},
 	methods: {
 		close() {
+			if (this.link !== undefined) {
+				this.$router.push(this.link);
+			}
 			this.$emit('close');
 		},
 	},
