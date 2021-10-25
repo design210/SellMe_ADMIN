@@ -19,7 +19,7 @@
 				<table class="table_container">
 					<thead>
 						<tr>
-							<th><input type="checkbox" name="selectall" onclick="selectAll(this)" /></th>
+							<th><input type="checkbox" @change="allCheck" v-model="allCheckStatus" /></th>
 							<th>상태</th>
 							<th>기업명</th>
 							<th>공고명</th>
@@ -40,83 +40,6 @@
 							<td>2021-09-24 20:59:00</td>
 							<td>1명 [보기]</td>
 							<td>2021-10-18 11:16:00</td>
-							<td><a href="#">수정</a></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="checkbox" onclick="checkSelectAll()" /></td>
-							<td>마감</td>
-							<td>-</td>
-							<td>-</td>
-							<td>N</td>
-							<td>2021-09-24 20:59:00</td>
-							<td>-명 [보기]</td>
-							<td>2021-10-18 11:16:00</td>
-							<td><a href="#">수정</a></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="checkbox" onclick="checkSelectAll()" /></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td><a href="#">수정</a></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="checkbox" onclick="checkSelectAll()" /></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td><a href="#">수정</a></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="checkbox" onclick="checkSelectAll()" /></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td><a href="#">수정</a></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="checkbox" onclick="checkSelectAll()" /></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td><a href="#">수정</a></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="checkbox" onclick="checkSelectAll()" /></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td><a href="#">수정</a></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="checkbox" onclick="checkSelectAll()" /></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
 							<td><a href="#">수정</a></td>
 						</tr>
 					</tbody>
@@ -141,7 +64,35 @@
 </template>
 
 <script>
-export default {};
+export default {
+	data() {
+		return {
+			pageNo: 1,
+			pageSize: 30,
+			totalPage: null,
+			totalCount: null,
+			select: 30,
+			allCk: false,
+			allCheckStatus: false,
+			list: [],
+			deleteList: [],
+		};
+	},
+	methods: {
+		allCheck() {
+			this.allCk = !this.allCk;
+			const chList = [];
+			if (this.allCk) {
+				this.list.forEach(ele => {
+					chList.push(ele.companyUserNo);
+				});
+				this.deleteList = chList;
+			} else {
+				this.deleteList = [];
+			}
+		},
+	},
+};
 </script>
 
 <style></style>
