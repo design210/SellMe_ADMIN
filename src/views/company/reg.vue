@@ -204,7 +204,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .file-input {
 	height: 30px;
 	margin-top: 0 !important;

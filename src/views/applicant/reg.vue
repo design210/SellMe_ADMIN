@@ -15,7 +15,7 @@
 							<th>기업 선택</th>
 							<td class="idCheck">
 								<input type="text" id="companyId" value="" readonly />
-								<button type="button" id="companySearchBtn" onClick="companySearch()">검색</button>
+								<button type="button" id="companySearchBtn" onClick="companySearch()" class="btn">검색</button>
 							</td>
 						</tr>
 						<tr>
@@ -157,7 +157,7 @@
 				</div>
 				<!-- </form> -->
 
-				<button style="margin: 50px 0">확인</button>
+				<button style="margin: 50px 0" class="btn">확인</button>
 			</div>
 		</div>
 	</div>
@@ -167,8 +167,8 @@
 export default {};
 </script>
 
-<style>
-button {
+<style scoped>
+.btn {
 	text-align: center;
 	background-color: #ff4839;
 	border: 1px solid #ff4839;

@@ -50,11 +50,11 @@
 				</table>
 
 				<div class="d-flex justify-space-between page-group">
-					<button type="button" @click="del">선택 삭제</button>
+					<button type="button" @click="del" class="btn">선택 삭제</button>
 					<div class="pagination">
 						<v-pagination v-model="pageNo" :length="totalPage" :total-visible="7"></v-pagination>
 					</div>
-					<button type="button" @click="$router.push('/company/reg')">신규 등록</button>
+					<button type="button" @click="$router.push('/company/reg')" class="btn">신규 등록</button>
 				</div>
 			</div>
 		</div>
@@ -154,14 +154,17 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .page-group {
 	width: 90%;
 }
-.page-group button {
-	margin-top: 22px;
+.page-group .btn {
+	margin-top: 23px;
 }
-button {
+.pagination {
+	margin-top: 20px;
+}
+.btn {
 	text-align: center;
 	background-color: #ff4839;
 	border: 1px solid #ff4839;

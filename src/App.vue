@@ -1,7 +1,7 @@
 <template>
 	<v-app>
 		<v-main class="main-container">
-			<div class="layout">
+			<div class="layout-main">
 				<router-view name="top"></router-view>
 				<router-view name="contents" class="contents"></router-view>
 			</div>
@@ -43,7 +43,7 @@ export default {
 	transform: translate(-50%, -50%);
 	z-index: 99999;
 }
-.logout {
+.logout-main {
 	& a {
 		color: #808080 !important;
 	}

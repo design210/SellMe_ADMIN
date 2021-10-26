@@ -17,7 +17,7 @@
 							<th>기업명</th>
 							<td class="idCheck">
 								<input type="text" id="companyId" />
-								<button type="button" @click="showModalPopup" style="margin-left: 5px">검색</button>
+								<button type="button" @click="showModalPopup" style="margin-left: 5px" class="btn">검색</button>
 							</td>
 							<th>상태</th>
 							<td class="radios">
@@ -33,10 +33,12 @@
 							</td>
 						</tr>
 						<tr>
-							<th>기업명</th>
-							<td colspan="3" class="">
-								<input type="datetime-local" />
-								<span>까지</span>
+							<th>지원자 열람 가능일</th>
+							<td colspan="3">
+								<div class="d-flex align-center">
+									<time-picker @date="dateSetProp" class="date-time"></time-picker>
+									<span style="margin-left: 10px">까지</span>
+								</div>
 							</td>
 						</tr>
 					</table>
@@ -48,7 +50,13 @@
 						<tr>
 							<th>영상 자기소개 항목</th>
 							<td class="" colspan="3">
-								<textarea rows="3" cols="80" placeholder="회사에 지원하는 이유와 본인의 경험을 이어서 말해주세요." class="admin_memo"></textarea>
+								<textarea
+									rows="3"
+									cols="80"
+									placeholder="회사에 지원하는 이유와 본인의 경험을 이어서 말해주세요."
+									class="admin_memo"
+									style="width: 100%"
+								></textarea>
 							</td>
 						</tr>
 					</table>
@@ -98,7 +106,7 @@
 					</table>
 				</div>
 
-				<button style="margin: 50px 0">확인</button>
+				<button style="margin: 50px 0" class="btn">확인</button>
 			</div>
 		</div>
 	</div>
@@ -107,18 +115,30 @@
 <script>
 import CompanySearchModal from '@/components/modal/CompanySearch';
 import { getPopupOpt } from '@/utils/modal';
+import TimePicker from '@/components/form/TimePicker.vue';
 export default {
+	data() {
+		return {
+			date: '',
+		};
+	},
+	components: {
+		TimePicker,
+	},
 	methods: {
 		//알럿 모달
 		showModalPopup(msg) {
 			this.$modal.show(CompanySearchModal, { msg }, getPopupOpt('CompanySearchModal', '400px', 'auto', false));
 		},
+		dateSetProp(date) {
+			this.date = date;
+		},
 	},
 };
 </script>
 
-<style>
-button {
+<style scoped>
+.btn {
 	text-align: center;
 	background-color: #ff4839;
 	border: 1px solid #ff4839;

@@ -185,33 +185,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .logo {
 	width: 80px;
 	height: 30px;
 }
-.file-input {
-	height: 30px;
-	margin-top: 0 !important;
-	padding-top: 0 !important;
-	& .v-input__prepend-outer {
-		margin: 0 0 0 5px !important;
-		width: 0 !important;
-		height: 0 !important;
-	}
-	& .v-input__slot {
-		&:before {
-			border: 0 !important;
-		}
-		&:after {
-			border: 0 !important;
-		}
-	}
-	& .v-file-input__text {
-		font-size: 12px;
-	}
-}
-
 .btn {
 	text-align: center;
 	background-color: #ff4839;
