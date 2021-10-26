@@ -17,7 +17,7 @@
 							<th>기업명</th>
 							<td class="idCheck">
 								<input type="text" id="companyId" />
-								<button type="button" id="companySearchBtn" onClick="companySearch()">검색</button>
+								<button type="button" @click="showModalPopup" style="margin-left: 5px">검색</button>
 							</td>
 							<th>상태</th>
 							<td class="radios">
@@ -101,41 +101,20 @@
 				<button style="margin: 50px 0">확인</button>
 			</div>
 		</div>
-
-		<!-- <div class="search_modal" id="search_modal">
-			<div class="modal_layer"></div>
-			<div class="modal_body search_modal_body">
-				<div>
-					<h3>기업 검색</h3>
-					<input type="text" id="searchCompany" />
-					<button type="button">검색</button>
-				</div>
-
-				<div class="search_company_result">
-					<ul class="company_list">
-						<li>
-							<div><a href="#" onclick="companyName()">(주)컴퍼니제이</a></div>
-						</li>
-						<li><span>건국대학교</span></li>
-						<li><span>(주)렛유인</span></li>
-						<li><span>기업명999</span></li>
-						<li><span>(주)컴퍼니제이</span></li>
-						<li><span>건국대학교</span></li>
-						<li><span>(주)렛유인</span></li>
-						<li><span>기업명999</span></li>
-						<li><span>(주)컴퍼니제이</span></li>
-						<li><span>건국대학교</span></li>
-						<li><span>(주)렛유인</span></li>
-						<li><span>기업명999</span></li>
-					</ul>
-				</div>
-			</div>
-		</div> -->
 	</div>
 </template>
 
 <script>
-export default {};
+import CompanySearchModal from '@/components/modal/CompanySearch';
+import { getPopupOpt } from '@/utils/modal';
+export default {
+	methods: {
+		//알럿 모달
+		showModalPopup(msg) {
+			this.$modal.show(CompanySearchModal, { msg }, getPopupOpt('CompanySearchModal', '400px', 'auto', false));
+		},
+	},
+};
 </script>
 
 <style>

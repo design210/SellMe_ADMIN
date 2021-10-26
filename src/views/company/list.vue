@@ -42,6 +42,11 @@
 							<td><a @click="modify(item.companyUserNo)">수정</a></td>
 						</tr>
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="8" v-if="list.length === 0">리스트가 없습니다.</td>
+						</tr>
+					</tfoot>
 				</table>
 
 				<div class="d-flex justify-space-between page-group">

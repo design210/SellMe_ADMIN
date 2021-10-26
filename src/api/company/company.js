@@ -1,4 +1,3 @@
-import { data } from 'jquery';
 import { createInstanceWithAuth } from '../index';
 function companyReg(data) {
 	let paramData = {

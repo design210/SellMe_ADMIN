@@ -8,11 +8,13 @@
 				</div>
 
 				<div class="head_option">
-					<div class="company_net">총 공고 수 : <span>N</span></div>
-					<select class="company_option">
-						<option>30개씩 보기</option>
-						<option>50개씩 보기</option>
-						<option>100개씩 보기</option>
+					<div class="company_net">
+						총 공고 수 : <span>{{ totalCount }}</span>
+					</div>
+					<select class="company_option" v-model="select">
+						<option value="30">30개씩 보기</option>
+						<option value="50">50개씩 보기</option>
+						<option value="100">100개씩 보기</option>
 					</select>
 				</div>
 
@@ -31,32 +33,33 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td><input type="checkbox" name="checkbox" onclick="checkSelectAll()" /></td>
-							<td>진행 중</td>
-							<td>컴퍼니제이</td>
-							<td>퍼포먼스 마케터 (팀장급)</td>
-							<td>Y</td>
-							<td>2021-09-24 20:59:00</td>
-							<td>1명 [보기]</td>
-							<td>2021-10-18 11:16:00</td>
-							<td><a href="#">수정</a></td>
+						<tr v-for="(item, index) in list" :key="index">
+							<td><input type="checkbox" :value="item.postNo" v-model="deleteList" @change="ckStatus(item.postNo)" /></td>
+							<td v-if="item.endDate > toDay">진행 중</td>
+							<td v-else>마감</td>
+							<td></td>
+							<td>{{ item.subject }}</td>
+							<td v-if="item.isTextOn === true">Y</td>
+							<td v-else>N</td>
+							<td>{{ item.endDate }}</td>
+							<td>{{ item.applierCount }}명 <span v-if="item.applierCount > 0">[보기]</span></td>
+							<td>{{ item.startDate }}</td>
+							<td><a @click="modify(item.postNo)">수정</a></td>
 						</tr>
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="8" v-if="list.length === 0">리스트가 없습니다.</td>
+						</tr>
+					</tfoot>
 				</table>
 
-				<div class="bottom_container">
-					<button type="button">선택 삭제</button>
+				<div class="d-flex justify-space-between page-group">
+					<button type="button" @click="del">선택 삭제</button>
 					<div class="pagination">
-						<div class="page_prev"><img src="@/assets/img/icon_pg_arrowL.svg" /></div>
-						<div class="page_1">1</div>
-						<div class="page_2">2</div>
-						<div class="page_3">3</div>
-						<div class="page_4">4</div>
-						<div class="page_5">5</div>
-						<div class="page_next"><img src="@/assets/img/icon_pg_arrowR.svg" /></div>
+						<v-pagination v-model="pageNo" :length="totalPage" :total-visible="7"></v-pagination>
 					</div>
-					<button type="button">신규 등록</button>
+					<button type="button" @click="$router.push('/advertisemen/reg')">신규 등록</button>
 				</div>
 			</div>
 		</div>
@@ -64,7 +67,14 @@
 </template>
 
 <script>
+import AlertModal from '@/components/modal/Alert';
+import confirmModal from '@/components/modal/Confirm';
+import { getPopupOpt } from '@/utils/modal';
+import { mapGetters } from 'vuex';
 export default {
+	computed: {
+		...mapGetters('advertisemen', ['getAdvertisemenList']),
+	},
 	data() {
 		return {
 			pageNo: 1,
@@ -76,23 +86,98 @@ export default {
 			allCheckStatus: false,
 			list: [],
 			deleteList: [],
+			toDay: '',
 		};
 	},
+	watch: {
+		pageNo() {
+			this.reload();
+		},
+		pageSize() {
+			this.reload();
+		},
+		select(num) {
+			this.pageSize = num;
+			this.reload();
+		},
+	},
+	mounted() {
+		this.reload();
+		let today = new Date();
+		let year = today.getFullYear(); // 년도
+		let month = today.getMonth() + 1; // 월
+		let date = today.getDate(); // 날짜
+		this.toDay = year + '-' + month + '-' + date;
+	},
 	methods: {
+		async reload() {
+			await this.$store.dispatch('advertisemen/ADVERTISEMEN_LIST', { pageNo: this.pageNo, pageSize: this.pageSize });
+			this.totalPage = this.getAdvertisemenList.totalPage;
+			this.totalCount = this.getAdvertisemenList.totalCount;
+			this.list = this.getAdvertisemenList.items;
+		},
+		//알럿 모달
+		showModalPopup(msg) {
+			this.$modal.show(AlertModal, { msg }, getPopupOpt('AlertModal', '280px', 'auto', false));
+		},
+		//컨펌 모달
+		showConfirmModalPopup(msg) {
+			this.$modal.show(confirmModal, { update: this.update, msg }, getPopupOpt('confirmModal', '280px', 'auto', false));
+		},
+		async update() {
+			await this.$store.dispatch('advertisemen/ADVERTISEMEN_DEL', this.deleteList);
+			this.reload();
+		},
+		del() {
+			if (this.deleteList.length > 0) {
+				this.showConfirmModalPopup('선택한 항목을 삭제하시겠습니까?');
+			} else {
+				this.showModalPopup('삭제할 항목을 선택해주세요.');
+			}
+		},
+		ckStatus(id) {
+			let diff = this.deleteList.includes(id);
+			if (diff === false) {
+				this.allCheckStatus = false;
+				this.allCk = false;
+			}
+		},
 		allCheck() {
 			this.allCk = !this.allCk;
 			const chList = [];
 			if (this.allCk) {
 				this.list.forEach(ele => {
-					chList.push(ele.companyUserNo);
+					chList.push(ele.postNo);
 				});
 				this.deleteList = chList;
 			} else {
 				this.deleteList = [];
 			}
 		},
+		modify(id) {
+			this.$router.push(`/advertisemen/modify/${id}`);
+		},
 	},
 };
 </script>
 
-<style></style>
+<style>
+.page-group {
+	width: 90%;
+}
+.page-group button {
+	margin-top: 22px;
+}
+button {
+	text-align: center;
+	background-color: #ff4839;
+	border: 1px solid #ff4839;
+	border-radius: 3px;
+	color: #ffffff !important;
+	font-size: 13px;
+	width: 80px;
+	height: 30px;
+	margin-top: -6px;
+	cursor: pointer;
+}
+</style>
