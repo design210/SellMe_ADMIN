@@ -128,10 +128,13 @@ export default {
 	methods: {
 		//알럿 모달
 		showModalPopup(msg) {
-			this.$modal.show(CompanySearchModal, { msg }, getPopupOpt('CompanySearchModal', '400px', 'auto', false));
+			this.$modal.show(CompanySearchModal, { update: this.companySelect, msg }, getPopupOpt('CompanySearchModal', '400px', 'auto', false));
 		},
 		dateSetProp(date) {
 			this.date = date;
+		},
+		companySelect(data) {
+			console.log(data);
 		},
 	},
 };

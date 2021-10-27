@@ -36,7 +36,7 @@ function companyModify(data) {
 		companyUserNo: data.companyUserNo,
 		companyName: data.companyName,
 		id: data.id,
-		//password: data.password,
+		password: data.password,
 		memo: data.memo,
 		companyLogo: data.companyLogo,
 		departPhoneNo: data.departPhoneNo,

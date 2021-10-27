@@ -6,13 +6,15 @@
 					<h3>기업 검색</h3>
 					<div class="d-flex" style="margin: 20px 0">
 						<input type="text" id="searchCompany" style="margin: 0 5px 0 0" />
-						<button type="button">검색</button>
+						<button type="button" class="btn">검색</button>
 					</div>
 				</div>
 				<div class="search_company_result">
 					<ul class="company_list">
-						<li>
-							<div>(주)컴퍼니제이</div>
+						<li v-for="(item, index) in list" :key="index">
+							<div style="cursor: pointer" @click="selectCompany({ companyUserNo: item.companyUserNo, companyName: item.companyName })">
+								{{ item.companyName }}
+							</div>
 						</li>
 					</ul>
 				</div>
@@ -23,17 +25,31 @@
 
 <script>
 import modalWrap from '@/components/modal/AlertTemplate';
+import { mapGetters } from 'vuex';
 export default {
+	computed: {
+		...mapGetters('common', ['getCompanyList']),
+	},
 	props: ['msg'],
+	data() {
+		return {
+			name: '',
+			list: [],
+		};
+	},
 	components: {
 		modalWrap,
+	},
+	async mounted() {
+		await this.$store.dispatch('common/COMPANY_SEARCH', this.name);
+		this.list = this.getCompanyList;
 	},
 	methods: {
 		close() {
 			this.$emit('close');
 		},
-		comfirm() {
-			this.$attrs.update();
+		selectCompany(data) {
+			this.$attrs.update(data);
 			this.$emit('close');
 		},
 	},
@@ -52,6 +68,18 @@ export default {
 .btn-group {
 	display: flex;
 	justify-content: space-around;
+}
+.btn {
+	text-align: center;
+	background-color: #ff4839;
+	border: 1px solid #ff4839;
+	border-radius: 3px;
+	color: #ffffff !important;
+	font-size: 13px;
+	width: 80px;
+	height: 30px;
+	margin-top: -6px;
+	cursor: pointer;
 }
 .modal-btn {
 	width: 100px;

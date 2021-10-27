@@ -35,15 +35,15 @@
 					<tbody>
 						<tr v-for="(item, index) in list" :key="index">
 							<td><input type="checkbox" :value="item.postNo" v-model="deleteList" @change="ckStatus(item.postNo)" /></td>
-							<td v-if="item.endDate > toDay">진행 중</td>
+							<td v-if="item.isEnd === false">진행 중</td>
 							<td v-else>마감</td>
-							<td></td>
+							<td>{{ item.companyName }}</td>
 							<td>{{ item.subject }}</td>
 							<td v-if="item.isTextOn === true">Y</td>
 							<td v-else>N</td>
-							<td>{{ item.endDate }}</td>
+							<td>{{ item.useDate }} {{ item.useTime }}</td>
 							<td>{{ item.applierCount }}명 <span v-if="item.applierCount > 0">[보기]</span></td>
-							<td>{{ item.startDate }}</td>
+							<td>{{ item.regDate }} {{ item.regTime }}</td>
 							<td><a @click="modify(item.postNo)">수정</a></td>
 						</tr>
 					</tbody>
@@ -114,6 +114,12 @@ export default {
 			await this.$store.dispatch('advertisemen/ADVERTISEMEN_LIST', { pageNo: this.pageNo, pageSize: this.pageSize });
 			this.totalPage = this.getAdvertisemenList.totalPage;
 			this.totalCount = this.getAdvertisemenList.totalCount;
+			this.getAdvertisemenList.items.forEach(ele => {
+				ele.regDate = ele.startDate.substring(0, 10);
+				ele.regTime = ele.startDate.substring(11, 19);
+				ele.useDate = ele.endDate.substring(0, 10);
+				ele.useTime = ele.endDate.substring(11, 19);
+			});
 			this.list = this.getAdvertisemenList.items;
 		},
 		//알럿 모달

@@ -7,4 +7,10 @@ function fileUpload(data) {
 	};
 	return createInstanceWithAuth('/auth/signedUrl', paramData, {}, 'application/json; charset=utf-8').post();
 }
-export { fileUpload };
+function companySearch(name) {
+	let param = {
+		name: '',
+	};
+	return createInstanceWithAuth('/company/search', {}, param, 'application/json; charset=utf-8').get();
+}
+export { fileUpload, companySearch };
