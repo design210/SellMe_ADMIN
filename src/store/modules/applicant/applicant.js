@@ -1,24 +1,24 @@
-import { getApplicantList } from '@/api/applicant/applicant';
+import { getApplicantList, getApplicantDetail } from '@/api/applicant/applicant';
 const applicant = {
 	namespaced: true,
 	state: {
 		getApplicantList: {},
-		getAdvertisemenDetail: {},
+		getApplicantDetail: {},
 	},
 	getters: {
 		getApplicantList: state => {
 			return state.getApplicantList;
 		},
-		getAdvertisemenDetail: state => {
-			return state.getAdvertisemenDetail;
+		getApplicantDetail: state => {
+			return state.getApplicantDetail;
 		},
 	},
 	mutations: {
 		getApplicantList(state, data) {
 			state.getApplicantList = data;
 		},
-		getAdvertisemenDetail(state, data) {
-			state.getAdvertisemenDetail = data;
+		getApplicantDetail(state, data) {
+			state.getApplicantDetail = data;
 		},
 	},
 	actions: {
@@ -29,10 +29,10 @@ const applicant = {
 		// async ADVERTISEMEN_REG({ commit }, datas) {
 		// 	const { data } = await advertisemenReg(datas);
 		// },
-		// async ADVERTISEMEN_DETAIL({ commit }, datas) {
-		// 	const { data } = await getAdvertisemenDetail(datas);
-		// 	commit('getAdvertisemenDetail', data);
-		// },
+		async APPLICANT_DETAIL({ commit }, datas) {
+			const { data } = await getApplicantDetail(datas);
+			commit('getApplicantDetail', data);
+		},
 		// async ADVERTISEMEN_DEL({ commit }, datas) {
 		// 	await advertisemenDel(datas);
 		// },

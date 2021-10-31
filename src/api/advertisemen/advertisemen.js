@@ -34,8 +34,8 @@ function getAdvertisemenDetail(id) {
 	return createInstanceWithAuth(`/post/${id}`, {}, {}, 'application/json; charset=utf-8').get();
 }
 function advertisemenModify(data) {
-	console.log(data);
 	let paramData = {
+		postNo: data.postNo,
 		startDate: data.startDate,
 		endDate: data.endDate,
 		isDel: data.isDel,

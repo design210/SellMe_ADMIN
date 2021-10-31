@@ -55,6 +55,14 @@ const router = new VueRouter({
 			},
 		},
 		{
+			path: '/applicant/list/:filter',
+			name: 'applicant_list',
+			components: {
+				top,
+				contents: () => import('@/views/applicant/list.vue'),
+			},
+		},
+		{
 			path: '/applicant/reg',
 			name: 'applicant_reg',
 			components: {

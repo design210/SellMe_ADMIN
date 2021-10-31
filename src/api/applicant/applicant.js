@@ -11,7 +11,6 @@ function getApplicantList(data) {
 		startDate: data.startDate,
 		endDate: data.endDate,
 	};
-	console.log(param);
 	return createInstanceWithAuth('/apply', {}, param, 'application/json; charset=utf-8').get();
 }
 // function advertisemenReg(data) {
@@ -37,9 +36,9 @@ function getApplicantList(data) {
 // 	};
 // 	return createInstanceWithAuth('/post/list', paramData, {}, 'application/json; charset=utf-8').put();
 // }
-// function getAdvertisemenDetail(id) {
-// 	return createInstanceWithAuth(`/post/${id}`, {}, {}, 'application/json; charset=utf-8').get();
-// }
+function getApplicantDetail(id) {
+	return createInstanceWithAuth(`/apply/${id}/post`, {}, {}, 'application/json; charset=utf-8').get();
+}
 // function advertisemenModify(data) {
 // 	console.log(data);
 // 	let paramData = {
@@ -59,4 +58,4 @@ function getApplicantList(data) {
 // 	};
 // 	return createInstanceWithAuth(`/post/${data.postNo}`, paramData, {}, 'application/json; charset=utf-8').put();
 // }
-export { getApplicantList };
+export { getApplicantList, getApplicantDetail };

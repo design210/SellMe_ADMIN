@@ -42,7 +42,7 @@
 							<td v-if="item.isTextOn === true">Y</td>
 							<td v-else>N</td>
 							<td>{{ item.useDate }} {{ item.useTime }}</td>
-							<td>{{ item.applierCount }}명 <span v-if="item.applierCount > 0">[보기]</span></td>
+							<td>{{ item.applierCount }}명 <span v-if="item.applierCount > 0" @click="applicantView(item.subject)" class="view">[보기]</span></td>
 							<td>{{ item.regDate }} {{ item.regTime }}</td>
 							<td><a @click="modify(item.postNo)">수정</a></td>
 						</tr>
@@ -163,11 +163,17 @@ export default {
 		modify(id) {
 			this.$router.push(`/advertisemen/modify/${id}`);
 		},
+		applicantView(filter) {
+			this.$router.push(`/applicant/list/${filter}`);
+		},
 	},
 };
 </script>
 
 <style scoped>
+.view {
+	cursor: pointer;
+}
 .page-group {
 	width: 90%;
 }

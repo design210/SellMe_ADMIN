@@ -80,7 +80,7 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="8" v-if="list.length === 0">리스트가 없습니다.</td>
+							<td colspan="9" v-if="list.length === 0">리스트가 없습니다.</td>
 						</tr>
 					</tfoot>
 				</table>
@@ -90,7 +90,7 @@
 						<v-pagination v-model="pageNo" :length="totalPage" :total-visible="7"></v-pagination>
 					</div>
 					<button type="button" class="btn" style="margin-right: 20px" @click="downloadExcel">엑셀 다운</button>
-					<button type="button" @click="$router.push('/advertisemen/reg')" class="btn">신규 등록</button>
+					<button type="button" @click="$router.push('/applicant/reg')" class="btn">신규 등록</button>
 				</div>
 				<table class="table_container" id="excel">
 					<thead>
@@ -155,6 +155,7 @@ export default {
 			listExcel: [],
 			searchType: '선택',
 			searchText: '',
+			filter: true,
 		};
 	},
 	watch: {
@@ -181,6 +182,10 @@ export default {
 	},
 	methods: {
 		async reload() {
+			if (this.$route.params.filter !== undefined && this.filter === true) {
+				this.applierPostName = this.$route.params.filter;
+				this.filter = false;
+			}
 			await this.$store.dispatch('applicant/APPLICANT_LIST', {
 				pageNo: this.pageNo,
 				pageSize: this.pageSize,
@@ -199,7 +204,6 @@ export default {
 				ele.regDate = ele.regDate.substring(0, 10);
 			});
 			this.list = this.getApplicantList.result;
-			console.log(this.list);
 		},
 		startDateProp(date) {
 			this.startDate = date;
@@ -275,7 +279,7 @@ export default {
 			}
 		},
 		modify(id) {
-			this.$router.push(`/advertisemen/modify/${id}`);
+			this.$router.push(`/applicant/modify/${id}`);
 		},
 		downloadExcel() {
 			if (this.listExcel.length > 0) {
