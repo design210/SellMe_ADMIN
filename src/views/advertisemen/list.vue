@@ -49,7 +49,7 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="8" v-if="list.length === 0">리스트가 없습니다.</td>
+							<td colspan="9" v-if="list.length === 0">리스트가 없습니다.</td>
 						</tr>
 					</tfoot>
 				</table>

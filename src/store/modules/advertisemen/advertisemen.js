@@ -1,51 +1,44 @@
-import { getAdvertisemenList, advertisemenDel } from '@/api/advertisemen/advertisemen';
+import { advertisemenModify, getAdvertisemenList, advertisemenDel, advertisemenReg, getAdvertisemenDetail } from '@/api/advertisemen/advertisemen';
 const advertisemen = {
 	namespaced: true,
 	state: {
 		getAdvertisemenList: {},
-		// getCompanyList: {},
-		// getCompanyDetail: {},
+		getAdvertisemenDetail: {},
 	},
 	getters: {
 		getAdvertisemenList: state => {
 			return state.getAdvertisemenList;
 		},
-		// getCompanyList: state => {
-		// 	return state.getCompanyList;
-		// },
-		// getCompanyDetail: state => {
-		// 	return state.getCompanyDetail;
-		// },
+		getAdvertisemenDetail: state => {
+			return state.getAdvertisemenDetail;
+		},
 	},
 	mutations: {
 		getAdvertisemenList(state, data) {
 			state.getAdvertisemenList = data;
 		},
-		// getCompanyList(state, data) {
-		// 	state.getCompanyList = data;
-		// },
-		// getCompanyDetail(state, data) {
-		// 	state.getCompanyDetail = data;
-		// },
+		getAdvertisemenDetail(state, data) {
+			state.getAdvertisemenDetail = data;
+		},
 	},
 	actions: {
 		async ADVERTISEMEN_LIST({ commit }, datas) {
 			const { data } = await getAdvertisemenList(datas);
 			commit('getAdvertisemenList', data);
 		},
-		// async ADVERTISEMEN_REG({ commit }, datas) {
-		// 	await advertisemenReg(datas);
-		// },
-		// async COMPANY_DETAIL({ commit }, datas) {
-		// 	const { data } = await getCompanyDetail(datas);
-		// 	commit('getCompanyDetail', data);
-		// },
+		async ADVERTISEMEN_REG({ commit }, datas) {
+			const { data } = await advertisemenReg(datas);
+		},
+		async ADVERTISEMEN_DETAIL({ commit }, datas) {
+			const { data } = await getAdvertisemenDetail(datas);
+			commit('getAdvertisemenDetail', data);
+		},
 		async ADVERTISEMEN_DEL({ commit }, datas) {
 			await advertisemenDel(datas);
 		},
-		// async COMPANY_MODIFY({ commit }, datas) {
-		// 	await companyModify(datas);
-		// },
+		async ADVERTISEMEN_MODIFY({ commit }, datas) {
+			await advertisemenModify(datas);
+		},
 	},
 };
 

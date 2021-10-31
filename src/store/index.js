@@ -4,6 +4,7 @@ import login from '@/store/modules/member/login.js';
 import common from '@/store/modules/common/common.js';
 import company from '@/store/modules/company/company.js';
 import advertisemen from '@/store/modules/advertisemen/advertisemen.js';
+import applicant from '@/store/modules/applicant/applicant.js';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -12,5 +13,6 @@ export default new Vuex.Store({
 		common,
 		company,
 		advertisemen,
+		applicant,
 	},
 });

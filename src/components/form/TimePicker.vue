@@ -4,7 +4,7 @@
 			<template v-slot:activator="{ on }">
 				<v-text-field v-model="date" readonly v-on="on" @click="hangleDelete"></v-text-field>
 			</template>
-			<v-date-picker v-model="date" scrollable locale="ko">
+			<v-date-picker v-model="date" scrollable locale="ko" :picker-date.sync="pickerDate">
 				<v-spacer></v-spacer>
 				<v-btn color="primary" @click="dateModal = false">취소</v-btn>
 				<v-btn color="primary" @click="timeModal = true">확인</v-btn>
@@ -24,16 +24,26 @@
 <script>
 import $ from 'jquery';
 export default {
+	props: ['current'],
 	name: 'DateTimePicker',
 	data: () => ({
 		date: '',
 		dateModal: false,
 		time: '',
 		timeModal: false,
+		pickerDate: null,
 	}),
 	watch: {
 		date(date) {
 			this.$emit('date', date);
+		},
+		pickerDate() {
+			this.hangleDelete();
+		},
+		current(val) {
+			if (val !== '') {
+				this.date = val;
+			}
 		},
 	},
 	methods: {

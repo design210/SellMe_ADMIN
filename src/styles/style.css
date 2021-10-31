@@ -393,7 +393,13 @@ input[type="text"]:read-only{background-color: #e7e7e7 !important;}
 .v-date-picker-table td{padding:0 !important}
 .v-input.date .v-text-field__slot input{font-size:12px;padding-left:10px;}
 .v-input.date {width:84px;}
+.date-range{width:240px}
+
+
+.date-range .v-input{margin-top:0 !important;padding-top:0 !important;height:19px !important;}
+.date-range .v-input__slot:after,.date-range .v-input__slot:before{border:0 !important}
 .date-time {width: 144px;}
+.date-range .v-text-field input{padding:0 10px !important;margin:0 !important;background: url('../assets/img/date.png');background-position: right 5px top 3px;background-repeat: no-repeat;background-size: 15px;}
 .date-time .v-text-field{margin-top:0 !important;padding-top:0 !important}
 .date-time .v-input__control{height:23px}
 .date-time .v-input__slot{margin-bottom:0 !important}
