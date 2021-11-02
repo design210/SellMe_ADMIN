@@ -405,6 +405,7 @@ input[type="text"]:read-only{background-color: #e7e7e7 !important;}
 .date-time .v-input__slot{margin-bottom:0 !important}
 .date-time input{font-size:13px;padding-left:10px !important;height:23px;background: url('../assets/img/date.png');background-position: right 5px top 3px;background-repeat: no-repeat;background-size: 15px;}
 .date-time input[type="text"]:read-only {background-color: #fff !important;}
+.v-pagination i{display:none !important}
 .mdi-chevron-right::before {
     content: ">";
 	font-style: normal;
