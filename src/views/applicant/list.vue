@@ -249,7 +249,7 @@ export default {
 			this.$modal.show(confirmModal, { update: this.update, msg }, getPopupOpt('confirmModal', '280px', 'auto', false));
 		},
 		async update() {
-			await this.$store.dispatch('advertisemen/ADVERTISEMEN_DEL', this.deleteList);
+			await this.$store.dispatch('applicant/APPLICANT_DEL', this.deleteList);
 			this.reload();
 		},
 		del() {

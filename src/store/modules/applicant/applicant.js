@@ -1,9 +1,10 @@
-import { getApplicantList, getApplicantDetail } from '@/api/applicant/applicant';
+import { getApplicantfind, getApplicantList, getApplicantDetail, applicantModify, applicantDel } from '@/api/applicant/applicant';
 const applicant = {
 	namespaced: true,
 	state: {
 		getApplicantList: {},
 		getApplicantDetail: {},
+		getApplicantfind: {},
 	},
 	getters: {
 		getApplicantList: state => {
@@ -12,6 +13,9 @@ const applicant = {
 		getApplicantDetail: state => {
 			return state.getApplicantDetail;
 		},
+		getApplicantfind: state => {
+			return state.getApplicantfind;
+		},
 	},
 	mutations: {
 		getApplicantList(state, data) {
@@ -19,6 +23,9 @@ const applicant = {
 		},
 		getApplicantDetail(state, data) {
 			state.getApplicantDetail = data;
+		},
+		getApplicantfind(state, data) {
+			state.getApplicantfind = data;
 		},
 	},
 	actions: {
@@ -33,12 +40,16 @@ const applicant = {
 			const { data } = await getApplicantDetail(datas);
 			commit('getApplicantDetail', data);
 		},
-		// async ADVERTISEMEN_DEL({ commit }, datas) {
-		// 	await advertisemenDel(datas);
-		// },
-		// async ADVERTISEMEN_MODIFY({ commit }, datas) {
-		// 	await advertisemenModify(datas);
-		// },
+		async APPLICANT_DEL({ commit }, datas) {
+			await applicantDel(datas);
+		},
+		async APPLICANT_MODIFY({ commit }, datas) {
+			await applicantModify(datas);
+		},
+		async APPLICANT_FIND({ commit }, id) {
+			const { data } = await getApplicantfind(id);
+			commit('getApplicantfind', data);
+		},
 	},
 };
 

@@ -34,11 +34,7 @@
 								<input type="text" id="companyId" v-model="applyUserName" />
 							</td>
 							<th>제출일</th>
-							<td>
-								<div class="d-flex align-center date-range" style="width: 100px">
-									<DatePicker :propdate="regDate" @updateDate="regDateProp"></DatePicker>
-								</div>
-							</td>
+							<td>{{ regDate }}</td>
 						</tr>
 						<tr>
 							<th>지원자 연락처</th>
@@ -108,8 +104,9 @@
 					<div class="company_info">영상 자기소개 파일 등록</div>
 					<table class="search_table_container">
 						<tr>
-							<th>파일 등록</th>
+							<th width="150">파일 등록</th>
 							<td class="filebox">
+								<div v-if="videoUrl !== ''">{{ videoUrl }}</div>
 								<div class="d-flex">
 									<label for="noFile" style="margin-left: 0">파일 선택</label>
 									<v-file-input class="file-input" id="noFile" accept="video/*" @change="selectFile" placeholder="선택된 파일 없음"></v-file-input>
@@ -155,7 +152,10 @@
 						</tr>
 					</table>
 				</div>
-				<button style="margin: 50px 0" class="btn">확인</button>
+				<div class="d-flex">
+					<button style="margin: 50px 5px 0 0" @click="$router.push('/applicant/list')" class="btn-gray">목록</button>
+					<button style="margin: 50px 0" @click="validate" class="btn">수정</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -163,10 +163,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import DatePicker from '../../components/form/DatePicker.vue';
 import axios from 'axios';
+import AlertModal from '@/components/modal/Alert';
+import { getPopupOpt } from '@/utils/modal';
+import loading from '@/mixins/loading';
+import bus from '@/utils/bus';
 export default {
-	components: { DatePicker },
+	mixins: [loading],
 	computed: {
 		...mapGetters('applicant', ['getApplicantDetail']),
 		...mapGetters('common', ['getVideoInfo']),
@@ -193,6 +196,8 @@ export default {
 			answer_4: '',
 			answer_5: '',
 			videoUrl: '',
+			postNo: '',
+			applyUserNo: '',
 		};
 	},
 	async mounted() {
@@ -201,7 +206,9 @@ export default {
 		console.log(this.getApplicantDetail);
 		this.companyName = this.getApplicantDetail.companyName;
 		this.postSubject = this.getApplicantDetail.postSubject;
+		this.postNo = this.getApplicantDetail.postNo;
 		const user = this.getApplicantDetail.applyUser;
+		this.applyUserNo = user.applyUserNo;
 		this.applyUserName = user.applyUserName;
 		this.regDate = user.regDate.substr(0, 10);
 		this.applyPhoneNo = user.applyPhoneNo;
@@ -223,14 +230,47 @@ export default {
 		this.videoUrl = resume.videoUrl;
 	},
 	methods: {
-		regDateProp(date) {
-			this.regDate = date;
+		validate() {
+			this.modify();
+		},
+		//저장
+		async modify() {
+			await this.$store.dispatch('applicant/APPLICANT_MODIFY', {
+				applyUserNo: this.applyUserNo,
+				applyUserName: this.applyUserName,
+				applyPhoneNo: this.applyPhoneNo,
+				applyEmail: this.applyEmail,
+				isAgree: true,
+				postNo: this.postNo,
+				resume: {
+					schoolName: this.schoolName,
+					career: this.career,
+					introduction: this.introduction,
+					isGraduate: this.isGraduate,
+					major: this.major,
+					subMajor: this.subMajor,
+					subMajorType: this.subMajorType,
+					isNew: this.isNew,
+					videoUrl: this.videoUrl,
+					answer_1: this.answer_1,
+					answer_2: this.answer_2,
+					answer_3: this.answer_3,
+					answer_4: this.answer_4,
+					answer_5: this.answer_5,
+				},
+			});
+			this.showModalPopup('수정이 완료 되었습니다.', '/applicant/list');
+		},
+		//알럿 모달
+		showModalPopup(msg, link) {
+			this.$modal.show(AlertModal, { msg, link }, getPopupOpt('AlertModal', '280px', 'auto', false));
 		},
 		//파일 업로드
 		selectFile(file) {
 			this.upload(file);
 		},
 		async upload(file) {
+			bus.$emit('start:spinner');
 			await this.$store.dispatch('common/VIDEO_UPLOAD', {
 				filePath: file.name,
 				contentType: file.type,
@@ -244,6 +284,7 @@ export default {
 					this.videoUrl = response.config.url;
 				})
 				.catch(error => console.log(error));
+			bus.$emit('end:spinner');
 		},
 	},
 };

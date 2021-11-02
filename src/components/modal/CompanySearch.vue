@@ -5,8 +5,8 @@
 				<div>
 					<h3>기업 검색</h3>
 					<div class="d-flex" style="margin: 20px 0">
-						<input type="text" id="searchCompany" style="margin: 0 5px 0 0" />
-						<button type="button" class="btn">검색</button>
+						<input type="text" id="searchCompany" style="margin: 0 5px 0 0" v-model="name" />
+						<button type="button" class="btn" @click="reload">검색</button>
 					</div>
 				</div>
 				<div class="search_company_result">
@@ -40,9 +40,8 @@ export default {
 	components: {
 		modalWrap,
 	},
-	async mounted() {
-		await this.$store.dispatch('common/COMPANY_SEARCH', this.name);
-		this.list = this.getCompanyList;
+	mounted() {
+		this.reload();
 	},
 	methods: {
 		close() {
@@ -51,6 +50,10 @@ export default {
 		selectCompany(data) {
 			this.$attrs.update(data);
 			this.$emit('close');
+		},
+		async reload() {
+			await this.$store.dispatch('common/COMPANY_SEARCH', this.name);
+			this.list = this.getCompanyList;
 		},
 	},
 };

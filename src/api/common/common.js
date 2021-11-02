@@ -17,7 +17,7 @@ function videoUpload(data) {
 }
 function companySearch(name) {
 	let param = {
-		name: '',
+		name,
 	};
 	return createInstanceWithAuth('/company/search', {}, param, 'application/json; charset=utf-8').get();
 }
