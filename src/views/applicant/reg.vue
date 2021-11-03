@@ -222,6 +222,30 @@ export default {
 			this.reg();
 		},
 		async reg() {
+			await this.$store.dispatch('applicant/APPLICANT_REG', {
+				applyUserNo: this.applyUserNo,
+				applyUserName: this.applyUserName,
+				applyPhoneNo: this.applyPhoneNo,
+				applyEmail: this.applyEmail,
+				isAgree: true,
+				postNo: this.postNo,
+				resume: {
+					schoolName: this.schoolName,
+					career: this.career,
+					introduction: this.introduction,
+					isGraduate: this.isGraduate,
+					major: this.major,
+					subMajor: this.subMajor,
+					subMajorType: this.subMajorType,
+					isNew: this.isNew,
+					videoUrl: this.videoUrl,
+					answer_1: this.answer_1,
+					answer_2: this.answer_2,
+					answer_3: this.answer_3,
+					answer_4: this.answer_4,
+					answer_5: this.answer_5,
+				},
+			});
 			this.showModalPopup('저장이 완료 되었습니다.', '/applicant/list');
 		},
 		//회사 찾기 모달

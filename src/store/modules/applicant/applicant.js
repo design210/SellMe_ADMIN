@@ -1,4 +1,4 @@
-import { getApplicantfind, getApplicantList, getApplicantDetail, applicantModify, applicantDel } from '@/api/applicant/applicant';
+import { applicantReg, getApplicantfind, getApplicantList, getApplicantDetail, applicantModify, applicantDel } from '@/api/applicant/applicant';
 const applicant = {
 	namespaced: true,
 	state: {
@@ -33,9 +33,9 @@ const applicant = {
 			const { data } = await getApplicantList(datas);
 			commit('getApplicantList', data);
 		},
-		// async ADVERTISEMEN_REG({ commit }, datas) {
-		// 	const { data } = await advertisemenReg(datas);
-		// },
+		async APPLICANT_REG({ commit }, datas) {
+			const { data } = await applicantReg(datas);
+		},
 		async APPLICANT_DETAIL({ commit }, datas) {
 			const { data } = await getApplicantDetail(datas);
 			commit('getApplicantDetail', data);
