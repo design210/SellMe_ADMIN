@@ -181,6 +181,7 @@ export default {
 	mixins: [loading],
 	computed: {
 		...mapGetters('applicant', ['getApplicantfind']),
+		...mapGetters('common', ['getVideoInfo']),
 	},
 	components: {
 		DatePicker,
@@ -223,7 +224,6 @@ export default {
 		},
 		async reg() {
 			await this.$store.dispatch('applicant/APPLICANT_REG', {
-				applyUserNo: this.applyUserNo,
 				applyUserName: this.applyUserName,
 				applyPhoneNo: this.applyPhoneNo,
 				applyEmail: this.applyEmail,
