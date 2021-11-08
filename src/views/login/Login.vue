@@ -3,9 +3,9 @@
 		<main class="login">
 			<div class="login_container">
 				<div class="login_title">
-					<h4>셀미 자기소개 영상 채용</h4>
-					<h2>기업 관리자 로그인</h2>
-					<!-- <h2>셀미 ADMIN</h2> -->
+					<!-- <h4>셀미 자기소개 영상 채용</h4>
+					<h2>기업 관리자 로그인</h2> -->
+					<h2>셀미 ADMIN</h2>
 				</div>
 
 				<form class="form_login">
