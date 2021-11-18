@@ -280,12 +280,18 @@ export default {
 				contentType: file.type,
 				fileSize: file.size,
 			});
-			const url = 'https://s3.ap-northeast-2.amazonaws.com/sellme.medias/' + this.getVideoInfo.fileName;
+			const url = this.getVideoInfo.s3Url;
+			file = new File([file], this.getVideoInfo.fileName, { type: file.type });
+			//			const url = 'https://s3.ap-northeast-2.amazonaws.com/sellme.medias/' + this.getVideoInfo.fileName;
 
 			await axios
-				.put(url, file)
+				.put(url, file, {
+					headers: {
+						'Content-Type': file.type,
+					},
+				})
 				.then(response => {
-					this.videoUrl = response.config.url;
+					this.videoUrl = response.config.url.split('?')[0];
 				})
 				.catch(error => console.log(error));
 			bus.$emit('end:spinner');
